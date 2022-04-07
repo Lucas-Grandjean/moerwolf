@@ -1,0 +1,33 @@
+{% extends "../base.html" %}
+{% load static %}
+
+{% block title %}Inscription{% endblock %}
+
+        {% block foo %}
+        {% include "/headbase.html" %}
+        {% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'login.css' %}"/>
+<div class='login-box'>
+            <h2>Moerman de Thiercelieux</h2>
+            <form action='/connexion', method='post'>
+            {% csrf_token %}
+                <div class="user-box">
+                    <input type="text" name="username" id="username" required>
+                    <label>Nom d'utilisateur</label>
+                </div>
+                <div class="user-box">
+                    <input type="password" name="pwd" id="pwd" required>
+                    <label>Mot de passe</label>
+                </div>
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                <div style="text-align: center;">
+                    <button type="submit">Se connecter</button>
+                </div>
+            </form>
+        </div>
+{% endblock %}

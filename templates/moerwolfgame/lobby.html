@@ -1,0 +1,60 @@
+{% extends "../base.html" %}
+{% load static %}
+
+{% block title %}Accueil{% endblock %}
+
+        {% block foo %}
+        {% include "/headbase.html" %}
+        {% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'index.css' %}"/>
+<link rel="stylesheet" href="{% static 'cardlist.css' %}"/>
+<div class='main-box'>
+    <div class="container">
+      {% if request.user.ongoing_game is None %}
+        <div class="row">
+            {% for game in all_games %}
+            <div class="col-sm-12" style='margin:30px;'>
+              {% if game.state == 1 %}
+                <h2 style='display:inline; color:green;' >Partie {{ game.id }} {{game.currentplayers}} / {{ game.maxplayers }}</h2>
+                <form style='display:inline;'  method="post">
+                {% csrf_token %}
+                <input type='hidden' value='{{ game.id }}' name='gameID', id="gameID">
+                <input style='display:inline;'type="submit" onchange="$('{{ game.id }}').submit();" value="Rejoindre">
+                </form>
+              {% elif game.state == 2 %}
+                <h2 style='display:inline; color:red;' >Partie {{ game.id }} {{game.currentplayers}} / {{ game.maxplayers }}</h2>
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="row">
+          <div class="col-sm-12">
+            <div style='text-align:center;'>
+              <h1>Partie {{ request.user.ongoing_game.id }} </h1>
+              <h2>Joueurs : {{ request.user.ongoing_game.currentplayers }} / {{ request.user.ongoing_game.maxplayers }}</h2>
+              {% for player in party_players %}
+              <i>- {{ player.username }}</i><br>
+              {% endfor %}
+              <form style='display:inline;'  method="post">
+              {% csrf_token %}
+              <input type="submit" name='gobackp' value="Revenir en partie">
+              <input type="submit" name ='leavep' value="Quitter la partie">
+              </form>
+            </div>
+          </div>
+
+        </div>
+      {% endif %}
+
+      <form style='display:inline;'  method="post">
+      {% csrf_token %}
+      {% if request.user.ongoing_game is None %}
+      <input type="submit" name='gamestart' value="Lancer une partie">
+      {% endif %}
+      </form>
+    </div>
+</div>
+{% endblock %}

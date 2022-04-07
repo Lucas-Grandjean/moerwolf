@@ -1,0 +1,18 @@
+
+{% for message in message_logs %}
+<p style='text-align:left;'>{{ message.timed }} - <span style='color:{{ message.color }};'>{{ message }}</span></p>
+{% endfor %}
+
+
+
+<script>
+    // On laisse le chat tout en bas à chaques fois
+    var messageBody = document.querySelector('#chatbox');
+    messageBody.scrollTop = messageBody.scrollHeight - messageBody.clientHeight;
+
+    {% if redirect %}
+    window.location.href = "/";
+    {% endif %}
+
+
+</script>

@@ -1,0 +1,36 @@
+<!-- SEER -->
+{% if game_infos.dayState == 1 and request.user.alive == True %}
+    <h2> Votes </h2>
+    {% if request.user.has_voted == False %}
+        {% for player in party_players %}
+            {% if player.alive == False %}
+                <p class='button_style' style='text-decoration-line: line-through;'>{{ player.username }}</p>
+                {% else %} <!-- Alive false -->
+                <form style='display:inline;'  method="post">
+                {% csrf_token %}
+                <input type="submit" name='vote' value="{{ player.username }}">
+                </form>
+                {% endif %} <!-- Alive false -->
+
+        {% endfor %}
+    {% else %} <!-- Si déjà voté -->
+    {% endif %}
+{% endif %}
+
+
+
+
+
+{% if game_infos.dayState == 2 and request.user.player_card.id == 3 and request.user.power_usage == 1 %}
+<p>Utilisez vos pouvoirs de voyance</p>
+    {% for player in party_players %}
+        {% if player.alive == False or player == request.user %}
+            <p class='button_style' style='text-decoration-line: line-through;'>{{ player.username }}</p>
+            {% else %} <!-- Alive false -->
+            <form style='display:inline;'  method="post">
+            {% csrf_token %}
+            <input type="submit" name='seer' value="{{ player.username }}">
+            </form>
+            {% endif %} <!-- Alive & Self false -->
+    {% endfor %}
+{% endif %}

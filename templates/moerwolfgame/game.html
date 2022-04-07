@@ -1,0 +1,66 @@
+{% extends "../base.html" %}
+{% load static %}
+
+{% block head %}
+<script src="https://unpkg.com/htmx.org@1.7.0" integrity="sha384-EzBXYPt0/T6gxNp0nuPtLkmRpmDBbjg6WmCUZRLXBBwYYmwAUxzlSGej0ARHX0Bo" crossorigin="anonymous"></script>
+ {% endblock %}
+
+{% block title %}Accueil{% endblock %}
+
+        {% block foo %}
+        {% include "/headbase.html" %}
+        {% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'index.css' %}"/>
+<link rel="stylesheet" href="{% static 'chatbox.css' %}"/>
+<div class='main-box pt-5'>
+    <div class="container">
+        <h1 style='text-align:center; margin-bottom:60px;'>Le Moerman de Thiercelieux</h1>
+        {% if game_infos.state == 1 %}
+    <p>En attente du lancement de la partie...</p>
+    {% if request.user.is_staff and game_infos.state == 1 %}
+    <form method="post" >
+        {% csrf_token %}
+        <input type="submit" onClick="window.location.reload();" name='launchgameadmin' value="[ADMIN] Lancer la partie">
+    </form>        
+
+    {% endif %}
+
+    <script>
+    setTimeout(function(){
+        window.location.reload(1);
+     }, 3000);
+    </script>
+    </div>
+</div>
+{% else %}
+        <div class="row">
+                <div class='col-sm-3'>
+                    <p id='test'>Rôle : {{ request.user.player_card }}</p>
+                    <p><i>{{ request.user.player_card.description }}</i></p>
+                </div>
+                <div hx-get="/jouer/chat/{{ urlgameid }}" hx-trigger="every 2s" class='chatbox col-sm-9' id='chatbox'>
+                    {% for message in message_logs %}
+                    <p style='text-align:left;'>{{ message.timed }} - <span style='color:{{ message.color }};'>{{ message }}</span></p>
+                    {% endfor %}
+                </div>
+
+        </div>
+
+        <div hx-get="/jouer/actions{{ urlgamerole }}/{{ urlgameid }}" hx-trigger="every 2s">
+            <div hx-get="/jouer/actions{{ urlgamerole }}/{{ urlgameid }}"
+     hx-trigger="load delay:0s"
+     hx-swap="outerHTML"></div>
+        </div>
+    </div>
+</div>
+{% endif%}
+<script>
+    // On laisse le chat tout en bas à chaques fois
+    var messageBody = document.querySelector('#chatbox');
+    messageBody.scrollTop = messageBody.scrollHeight - messageBody.clientHeight;
+
+
+</script>
+{% endblock %}

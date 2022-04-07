@@ -1,0 +1,10 @@
+.chatbox {
+    height:125px;
+    overflow-y:scroll;
+    margin:0 auto;
+    float:left;
+}
+
+.chatbox p {
+    line-height:50%;
+}

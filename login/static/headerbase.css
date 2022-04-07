@@ -1,0 +1,12 @@
+.headerbase {
+    position:fixed;
+    top:0;
+    right:0;
+    margin-right:50px;
+    margin-top:20px;
+    font-size: 20px;
+    background: rgba(0,0,0,.5);
+    box-sizing: border-box;
+    box-shadow: 0 15px 25px rgba(0,0,0,.6);
+    border-radius: 10px;
+}

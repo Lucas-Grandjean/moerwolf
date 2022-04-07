@@ -1,0 +1,34 @@
+{% extends "../base.html" %}
+{% load static %}
+
+{% block title %}Accueil{% endblock %}
+
+        {% block foo %}
+        {% include "/headbase.html" %}
+        {% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'index.css' %}"/>
+<div class='main-box'>
+
+    <h1 style='text-align:center;'>Le Moerman de Thiercelieux</h1>
+
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        <strong>Message:</strong> {{ message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    {% endfor %}
+    {% if user.is_authenticated %}
+    <button type="submit"><a href='jouer/lobby'>Jouer</a></button>
+    <button type="submit"><a href='/regles'>Règles</a></button>
+    <button type="submit"><a href='/listecartes'>Liste des cartes</a></button>
+    <button type="submit"><a href='/deconnexion'>Deconnexion</a></button>
+    {% else %}
+    <button type="submit"><a href='/connexion'>Connexion</a></button>
+    <button type="submit"><a href='/inscription'>Inscription</a></button>
+    {% endif %}
+</div>
+{% endblock %}

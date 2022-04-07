@@ -1,0 +1,17 @@
+{% extends "../base.html" %}
+{% load static %}
+
+{% block title %}Accueil{% endblock %}
+
+        {% block foo %}
+        {% include "/headbase.html" %}
+        {% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'index.css' %}"/>
+<div class='main-box'>
+
+    <h2>Le Moerman de Thiercelieux</h2>
+
+</div>
+{% endblock %}
